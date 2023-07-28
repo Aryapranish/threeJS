@@ -1,8 +1,5 @@
 import * as THREE from "three";
 
-//Canvas
-const canvas = document.querySelector("canvas.webgl");
-
 // Scene
 const scene = new THREE.Scene();
 
@@ -29,3 +26,18 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
+
+//Animations
+const clock = new THREE.Clock();
+const tick = () => {
+  //Time
+  const elapsedTime = clock.getElapsedTime();
+  //Update objects
+  mesh.rotation.y += elapsedTime;
+  //Render
+  renderer.render(scene, camera);
+
+  //Call tick again on the next frame
+  window.requestAnimationFrame(tick);
+};
+tick();
