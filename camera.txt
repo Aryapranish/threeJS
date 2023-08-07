@@ -1,0 +1,25 @@
+So far, worked with Perspective camera. But there are other types as well like:
+
+Camera: Camera class -> abstract class. Not supposed to use it directly,
+         but inherit from it to have access to common props and methods
+
+ArrayCamera: Class to render scene multiple times using multiple cameras.
+        Each camera will render a specific area of the canvas. Similar to a old school
+        split screen canvas.
+
+StereoCamera: used to render the scene through two camera that mimic the eyes in orer to create 
+        a parallax effect that will lure the brain into thinking that there is depth. Done with VR glasses.
+
+CubeCamera: render fach each direction (forward,backward,leftward,rightward, upward and downward) to create
+        a render of the surrounding. Create an enroment map for reflection or a shadow map.
+
+OrthographicCamera: Create orthographic renders of scene w/o perspective. Game like Age of empire.
+        Elements will have the same size on the screen  regardless of their distance from the camera.
+
+PerspectiveCamera: Simlate a real-life camera with perspective.
+
+- code: 
+    const camera = new THREE.PerspectiveCamera(75,sizes.width/sizes.height,1,100);
+    the last two parameters are near and far meaning how near and far the camera can see.
+    Usually it is between 0.1 to 100
+    // template - THREE.PerspectiveCamera(FieldOfView 45 -75, Aspect Ratio, Near, Far);
