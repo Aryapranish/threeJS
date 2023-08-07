@@ -2,12 +2,44 @@ import * as THREE from "three";
 import "./style.css";
 import gsap from "gsap";
 
+//Cursor
+const cursor = {
+  x: 0,
+  y: 0,
+};
+window.addEventListener("mousemove", (event) => {
+  //console.log(event.clientX, event.clientY);
+  cursor.x = event.clientX / sizes.width - 0.5;
+  cursor.y = -(event.clientY / sizes.height - 0.5);
+  console.log(cursor.x, cursor.y);
+});
+
 // Scene
 const scene = new THREE.Scene();
 
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+const positionAttribute = geometry.getAttribute("position");
+
+const colors = [];
+const color = new THREE.Color();
+
+for (let i = 0; i < positionAttribute.count; i += 3) {
+  color.set(Math.random() * 0xffffff);
+
+  // define the same color for each vertex of a triangle
+
+  colors.push(color.r, color.g, color.b);
+  colors.push(color.r, color.g, color.b);
+  colors.push(color.r, color.g, color.b);
+}
+
+const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+
+//define attribute
+geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -31,9 +63,16 @@ renderer.render(scene, camera);
 
 //Animations
 
-//const clock = new THREE.Clock();
+const clock = new THREE.Clock();
 //Adding gsap.to() to create a tween.
-gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 });
+// gsap.to(mesh.position, { duration: 1, delay: 1, x: 2, y: 2 });
+//Creating the same ever spinning cube using gsap
+//gsap.to(mesh.rotation, {
+//duration: 10,
+//x: Math.cos(clock.getElapsedTime()),
+//y: Math.cos(clock.getElapsedTime()),
+//});
+
 const tick = () => {
   //The code below is using three JS clock to create animation
   //   //Time
@@ -47,6 +86,15 @@ const tick = () => {
   //   //Call tick again on the next frame
   //   window.requestAnimationFrame(tick);
 
+  // //Update Camera
+  // camera.position.x = cursor.x * 10;
+  // camera.position.y = cursor.y * 10;
+
+  //To view the backside of the cube
+  camera.position.x = Math.sin(cursor.x * 10) * 3;
+  camera.position.z = Math.cos(cursor.x * 10) * 3;
+
+  camera.lookAt(mesh.position);
   //Render
   renderer.render(scene, camera);
 

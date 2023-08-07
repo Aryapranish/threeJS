@@ -23,3 +23,28 @@ PerspectiveCamera: Simlate a real-life camera with perspective.
     the last two parameters are near and far meaning how near and far the camera can see.
     Usually it is between 0.1 to 100
     // template - THREE.PerspectiveCamera(FieldOfView 45 -75, Aspect Ratio, Near, Far);
+
+You can move the camera around with mouse clicks, so inorder to do that we can use Vanilla JS to listen to the event
+-code:
+       window.addEventListener('mousemove',(event)=>{
+                
+                console.log(event.clientX, event.clientY)1;
+       }) 
+The code above will log the mouse position in the screen
+inside this function you can set the cursor to clientX and Y accordingly
+code : 
+        const cursor = {x:0,y:0}
+        
+        window.addEventListener('mousemove',(event)=>{
+                cursor.x = event.clientX / sizes.width - 0.5;
+                cursor.y = - (event.clinetY / sizes.height - 0.5);
+        })
+cursor.x is divided by the size of the screen to get a value between 0 and 1 
+0.5 is substracted so that the range is between -0.5 to 0.5
+
+cursor y on the other hand is negative to begin with bc the plot points are flipped so to change it back, multiply with -1.
+
+Now to move the camera with the cursor, we can use the tick() function. 
+Inside the tick function update the camera.position and set it to the cursor position.
+
+To make sure the camera is above the object, use camera.lookAt(mesh.position) so that it is fixed to the object.
