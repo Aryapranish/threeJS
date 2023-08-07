@@ -26,12 +26,11 @@ const positionAttribute = geometry.getAttribute("position");
 const colors = [];
 const color = new THREE.Color();
 
-for (let i = 0; i < positionAttribute.count; i += 3) {
+for (let i = 0; i < positionAttribute.count; i++) {
   color.set(Math.random() * 0xffffff);
 
   // define the same color for each vertex of a triangle
 
-  colors.push(color.r, color.g, color.b);
   colors.push(color.r, color.g, color.b);
   colors.push(color.r, color.g, color.b);
 }
@@ -46,8 +45,8 @@ scene.add(mesh);
 
 // Sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 // Camera
