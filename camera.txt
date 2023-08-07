@@ -48,3 +48,36 @@ Now to move the camera with the cursor, we can use the tick() function.
 Inside the tick function update the camera.position and set it to the cursor position.
 
 To make sure the camera is above the object, use camera.lookAt(mesh.position) so that it is fixed to the object.
+
+However, the camera wont be facing the back side of the cube. to enable that some trig is required.
+
+To look at the back of the cube, rotate around the plane, this means x and z axis are involved
+Y is not involved as it deals with moving up and down.
+
+x is left and right, z is forwards and backwards. 
+
+so camera.poisiton.x = Math.sin(cursor.x * 10) * 2
+   camera.position.z = Math.cos(cursor.x * 10) *2
+
+Controls in Three js:
+Three js provides built in controls which help move the camera move around with ease.
+
+Some of them are 
+        DeviceOrientationControl: retrieves the device orientation and allow to rotate the camera
+        FlyControls: control the camera like you are in a spaceship
+        FirstPersonControls: similar to FlyControls but set in a fixed axis. 
+        PointerLockCOntrols: FPS like camera and can create FPS games 
+        OrbitControls: Rotate around a point with the mouse, zoom with the wheel and translate using right clicks
+
+Using OrbitControls:
+        Import OrbitControls. THis is a bit different as it does not reside directly in the library. Have to access it
+
+        import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+Instantiate it right above the Renderer:
+        //Controls
+        const controls = new OrbitControls(camera,canvas)
+Enable damping as it will allow to smoothly move the object and it keeps on spinning for a while 
+        controls.enableDamping = true;
+Update the tick function:
+        controls.update();
